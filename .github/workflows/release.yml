@@ -1,8 +1,11 @@
 name: springboot CI/CD
+env:
+  token: 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
 on:
   push:
     branches:
       - release
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +18,7 @@ jobs:
 #          registry: ${{ secrets.REGISTRY }}
 #          username: ${{ secrets.REGISTRY_USERNAME }}
 #          password: ${{ secrets.REGISTRY_TOKEN }}
-        run: docker login ${{ secrets.REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password ${{ secrets.REGISTRY_TOKEN }}
+        run: echo ${{ env.token }} | docker login ${{ secrets.REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
       - name: maven install
         run: mvn clean install
       - name: docker build
